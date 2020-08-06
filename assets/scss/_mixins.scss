@@ -1,0 +1,14 @@
+@mixin default-transition($element) {
+  transition: 0.25s $element ease-in-out;
+}
+@mixin before-effect() {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background: $details-color;
+  z-index: -1;
+}
