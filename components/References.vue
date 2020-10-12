@@ -1,64 +1,69 @@
 <template>
   <section class="section" id="references">
-    <h2 class="section__title">Opinie klientów</h2>
+    <h2 class="section__title section__title--light" v-view="titleHandler"> {{ $t(`sectionTitles.testimonials`) }}</h2>
 
     <div class="references">
-      <swiper ref="mySwiper" :options="swiperOptions">
-        <swiper-slide>
-          <div class="reference-item">
-            <p class="reference--item__content">
-              Dzięki Mati, zajebista stronka, naprawdę kozacka!  Dzięki Mati, zajebista stronka, naprawdę kozacka!  Dzięki Mati, zajebista stronka, naprawdę kozacka!
-            </p>
+      <client-only>
+        <swiper ref="mySwiper" :options="swiperOptions">
+          <swiper-slide>
+            <div class="reference-item">
+              <p class="reference--item__content">
+                A customer reference could consist of several people within a
+                single company acting as advocates. The key is to group these
+                based on the “story” rather than the specific solution. This
+                allows each story to be shared to its maximum potential.
+              </p>
 
-            <p></p>
-            <p class="reference-item__author">Paulina Kłys, dietly.pl</p>
-            <p></p>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="reference-item">
-            <p class="reference--item__content">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Explicabo, maiores tempore ad quibusdam deleniti sapiente
-              molestiae eum cum quis voluptates error minus? Excepturi maxime
-              cum cumque doloribus itaque voluptatibus expedita.
-            </p>
+              <p></p>
+              <p class="reference-item__author">John Doe</p>
+              <p></p>
+            </div>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="reference-item">
+              <p class="reference--item__content">
+                A customer reference could consist of several people within a
+                single company acting as advocates. The key is to group these
+                based on the “story” rather than the specific solution. This
+                allows each story to be shared to its maximum potential.
+              </p>
 
-            <p></p>
-            <p class="reference-item__author">JOlanta Kłys, dietly.pl</p>
-            <p></p>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="reference-item">
-            <p class="reference--item__content">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Explicabo, maiores tempore ad quibusdam deleniti sapiente
-              molestiae eum cum quis voluptates error minus? Excepturi maxime
-              cum cumque doloribus itaque voluptatibus expedita.
-            </p>
+              <p></p>
+              <p class="reference-item__author">Dane Doe</p>
+              <p></p>
+            </div>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="reference-item">
+              <p class="reference--item__content">
+                A customer reference could consist of several people within a
+                single company acting as advocates. The key is to group these
+                based on the “story” rather than the specific solution. This
+                allows each story to be shared to its maximum potential.
+              </p>
 
-            <p></p>
-            <p class="reference-item__author">Paulina Kłys, dietly.pl</p>
-            <p></p>
-          </div>
-        </swiper-slide>
-        <swiper-slide>
-          <div class="reference-item">
-            <p class="reference--item__content">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-              Explicabo, maiores tempore ad quibusdam deleniti sapiente
-              molestiae eum cum quis voluptates error minus? Excepturi maxime
-              cum cumque doloribus itaque voluptatibus expedita.
-            </p>
+              <p></p>
+              <p class="reference-item__author">Pdasdas da sl</p>
+              <p></p>
+            </div>
+          </swiper-slide>
+          <swiper-slide>
+            <div class="reference-item">
+              <p class="reference--item__content">
+                A customer reference could consist of several people within a
+                single company acting as advocates. The key is to group these
+                based on the “story” rather than the specific solution. This
+                allows each story to be shared to its maximum potential.
+              </p>
 
-            <p></p>
-            <p class="reference-item__author">Paulina Kłys, dietly.pl</p>
-            <p></p>
-          </div>
-        </swiper-slide>
-        <div class="swiper-pagination" slot="pagination"></div>
-      </swiper>
+              <p></p>
+              <p class="reference-item__author">Pdasdas da s</p>
+              <p></p>
+            </div>
+          </swiper-slide>
+          <div class="swiper-pagination" slot="pagination"></div>
+        </swiper>
+      </client-only>
     </div>
   </section>
 </template>
@@ -69,47 +74,54 @@ export default {
   data() {
     return {
       swiperOptions: {
-        slidesPerView: "auto",
+        slidesPerView: 1,
         centeredSlides: true,
         loop: true,
         spaceBetween: 30,
         pagination: {
-          el: ".swiper-pagination",
-          clickable: true
+          el: ".swiper-pagination"
+        },
+        autoplay: {
+          delay: 2500,
+          disableOnInteraction: true
         }
       }
     };
   },
-  computed: {
-    swiper() {
-      return this.$refs.mySwiper.$swiper;
+  methods: {
+    titleHandler(el) {
+      if (el.percentTop < 0.7) {
+        el.target.element.classList.remove("section__title--hide-pseudo-el");
+      } else {
+        el.target.element.classList.add("section__title--hide-pseudo-el");
+      }
     }
-  },
-  mounted() {
-    console.log("Current Swiper instance object", this.swiper);
-    this.swiper.slideTo(3, 1000, false);
   }
 };
 </script>
 
 <style lang="scss" scoped>
 .section {
-  margin-top: $s6;
-  background: #474844
+  margin-top: $s7;
+  padding: $s5 0;
 }
+
 
 .section__title {
   margin-top: $s4;
-  color: #fff;
 }
 
 .references {
-  margin-top: $s6;
+
   width: 100%;
-  max-width: 620px;
+  max-width: 720px;
   display: flex;
   justify-items: center;
-  }
+}
+
+.reference--item__content {
+     text-align: center;
+}
 
 .reference-item {
   width: 100%;
@@ -117,15 +129,45 @@ export default {
   flex-flow: column wrap;
   align-items: center;
   color: #fff;
-}
-
-.reference--item__content {
-
+  padding: $s2 $s7 $s6 $s7;
 }
 
 .reference-item__author {
   font-size: $font-size-big;
   font-weight: $font-weight-medium;
   margin-top: $s3;
+}
+
+@media only screen and (max-width: $mobile) {
+  .reference--item__content {
+    font-size: $font-size-small;
+  }
+
+  .references {
+    width: 80%;
+    margin-top: $s5;
+  }
+
+  .reference-item__author {
+    font-size: $font-size-medium;
+  }
+
+  .section {
+    margin-top: $s5;
+    padding: $s2 0 $s4 0;
+  }
+
+  .reference--item__content {
+    font-size: $font-size-medium;
+
+  }
+
+  .section__title {
+    margin-top: $s2;
+  }
+
+  .reference-item {
+    padding: $s2 0 $s6 0;
+  }
 }
 </style>

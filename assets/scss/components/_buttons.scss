@@ -9,10 +9,11 @@
   border: none;
   position: relative;
   z-index: 1;
+  text-decoration: none;
 }
 
 .button:hover {
-
+  color: $text-light
 }
 
 .button:before {
@@ -37,4 +38,18 @@
   width: 100%;
   height: 100%;
   background: $details-color;
+}
+
+
+.button--light {
+  color: $text-light;
+}
+
+.button--light:hover {
+  color: $text-color;
+}
+
+.button--light:hover:before {
+  background: $details-secondary-color;
+  color: $text-color;
 }

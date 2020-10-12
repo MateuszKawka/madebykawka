@@ -4,71 +4,120 @@
     :class="{ 'navbar-container--background': navBackground && isMobile }"
   >
     <nav class="navbar">
+      <div class="navbar-logo-container">
+        <transition>
+        <p class="navbar__logo" v-if="showNavLogo">
+          Made By Kawka
+        </p>
+        </transition>
+      </div>
       <ul class="menu" :class="{ 'menu--show': showMenu }">
         <li v-for="item in navData" :key="item.name" class="menu-item">
           <a
+            v-if="item.type === 'local'"
             href=""
             v-scroll-to="item.href"
             class="menu-item__link"
             @click="menuBind"
-            >{{ item.name }}</a
+            >{{ $t(`menu.${item.value}`) }}</a
           >
         </li>
+        <div class="language-switcher">
+          <nuxt-link
+            :to="switchLocalePath('pl')"
+            @click="menuBind"
+            class="language-switcher__item"
+            :class="{ 'language-switcher__item--active': locale === `pl` }"
+            >PL</nuxt-link
+          >
+          <nuxt-link
+            :to="switchLocalePath('en')"
+            @click="menuBind"
+            class="language-switcher__item"
+            :class="{ 'language-switcher__item--active': locale === `en` }"
+            >EN</nuxt-link
+          >
+        </div>
       </ul>
-      <div class="menu-icon" @click="menuBind">
-        <span class="line-1"></span>
-        <span class="line-2"></span>
-        <span class="line-3"></span>
-      </div>
+      <MenuIcon @clicked="menuBind" :show-menu="showMenu" class="menu-icon" />
     </nav>
   </div>
 </template>
 
 <script>
+import MenuIcon from "@/components/MenuIcon";
+
 export default {
   name: "Navigation",
+  components: {
+    MenuIcon
+  },
   data() {
     return {
       navData: [
         {
           name: "Start",
-          href: "#start"
-        },
-        {
-          name: "Usługi",
-          href: "#services"
+          href: "#start",
+          type: "local",
+          value: "start"
         },
         {
           name: "Oferta",
-          href: "#offer"
+          href: "#services",
+          type: "local",
+          value: "offer"
         },
+        // {
+        //   name: "Portfolio",
+        //   href: "/portfolio",
+        //   type: "subpage"
+        // },
         {
           name: "Opinie klientów",
-          href: "#references"
+          href: "#references",
+          type: "local",
+          value: "testimonials"
         },
         {
-          name: "O mnie",
-          href: "#about-me"
+          name: "Realizacje",
+          href: "#portfolio",
+          type: "local",
+          value: "works"
         },
+        // {
+        //   name: "O mnie",
+        //   href: "#about-me",
+        //   type: "local"
+        // },
         {
           name: "Kontakt",
-          href: "#contact"
+          href: "#contact",
+          type: "local",
+          value: "contact"
         }
       ],
       navBackground: false,
       headerHeight: 0,
       showMenu: false,
-      isMobile: false
+      isMobile: false,
+      showNavLogo: false
     };
+  },
+  computed: {
+    locale() {
+      return this.$i18n.locale;
+    }
   },
   methods: {
     scrollEvent() {
       const navbar = document.querySelector(".navbar-container");
       const header = document.querySelector(".header");
-      if (window.pageYOffset > header.getBoundingClientRect().top) {
+      if (window.pageYOffset - header.getBoundingClientRect().top > 300) {
         this.navBackground = true;
+        this.showNavLogo = true;
       } else {
         this.navBackground = false;
+        this.showNavLogo = false;
       }
     },
     menuBind() {
@@ -91,17 +140,42 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.language-switcher {
+
+  display: flex;
+}
+
+.language-switcher__item {
+  color: $text-color;
+  margin: 0 0.5rem;
+  cursor: pointer;
+  padding: $s1;
+}
+
+.language-switcher__item--active {
+  background: $details-color;
+  color: $text-light;
+}
+
+.navbar {
+  width: 100%;
+  height: auto;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0 $s3;
+}
+
 .navbar-container {
   width: 100%;
   height: auto;
-  padding: 1rem 2rem;
   display: flex;
   justify-content: space-around;
   align-items: center;
   position: fixed;
   top: 0;
   transition: 0.25s all ease-in-out;
-  z-index: 10;
+  z-index: 888;
 }
 
 .menu-icon {
@@ -109,18 +183,12 @@ export default {
 }
 
 .menu {
+  width: 100%;
   display: flex;
+  justify-content: flex-end;
   list-style-type: none;
   position: relative;
-  &:before {
-    content: "";
-    width: 100%;
-    position: absolute;
-    left: 0;
-    bottom: -1rem;
-    height: 1px;
-    background: $text-color;
-  }
+  padding: 1rem 0;
 }
 
 .menu-item {
@@ -150,7 +218,6 @@ export default {
   font-weight: $font-weight-light;
   padding: 0.5rem 2rem;
   font-size: $font-size-medium;
-  transition: 0.25s color ease-in-out;
   cursor: pointer;
   position: relative;
   overflow: hidden;
@@ -161,6 +228,30 @@ export default {
   transition: 0.25s all ease-in-out;
 }
 
+.navbar__logo {
+  height: 100%;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-items: flex-start;
+  color: $details-color;
+  font-size: $font-size-small;
+  position: relative;
+  z-index: 1;
+  width: 100%;
+}
+
+.navbar-logo-container {
+  width: 35%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar__logo span {
+  font-size: $font-size-small !important;
+}
+
 .menu-item__link:hover::before {
   content: "";
   position: absolute;
@@ -168,7 +259,7 @@ export default {
   left: 0;
   display: flex;
   width: 100%;
-  height: 100%;
+  height: 2px;
   background: $details-color;
   transform: translateX(-100%);
   animation: menuaa 0.25s ease-in-out forwards alternate;
@@ -177,13 +268,19 @@ export default {
 
 @keyframes menuaa {
   to {
-    transform: translateX(-40%);
+    transform: translateX(0);
   }
 }
 
 .navbar-container--background {
   background: $background-color;
 }
+.menu-item__link--special {
+  margin-left: $s3;
+  background: $details-color;
+  color: $text-light;
+}
+
 @media all and (max-width: 900px) {
   .menu {
     width: 100%;
@@ -194,7 +291,7 @@ export default {
     justify-content: space-around;
     padding: 10rem 0;
     background: #fff;
-    transform: translateY(-200%);
+    transform: translateY(-100%);
     transition: 0.3s transform ease-in-out;
     position: absolute;
     top: 0;
@@ -207,7 +304,6 @@ export default {
 
   .navbar {
     width: 100%;
-    height: 1;
   }
 
   .navbar-container {
@@ -223,15 +319,10 @@ export default {
   }
 
   .menu-icon {
-    display: grid;
-    place-items: center;
-    height: 55px;
-    width: 50px;
-    cursor: pointer;
+    display: block;
     position: absolute;
-    top: -4px;
-    right: 12px;
-    transform: scale(0.5);
+    z-index: 888;
+    right: $s1;
   }
   .menu-icon > span {
     width: 50px;
@@ -258,5 +349,23 @@ export default {
   .menu-icon:hover span:nth-child(2) {
     width: 40px;
   }
+
+  .menu-item__link--special {
+    margin-left: 0;
+  }
+
+  .language-switcher {
+    margin-top: $s2;
+  }
+
+  .navbar-logo-container {
+    margin: $s1 0;
+    text-align: center;
+  }
+
+  .navbar__logo {
+    align-items: center;
+  }
+
 }
 </style>

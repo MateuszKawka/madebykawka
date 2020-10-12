@@ -2,18 +2,18 @@
   <div class="app">
     <Navigation />
     <Nuxt />
-    <Footer />
+    <!-- <Footer /> -->
   </div>
 </template>
 
 <script>
+import Footer from "@/components/Footer";
 import Navigation from "@/components/Navigation";
-import Footer from "@/components/Footer"
 export default {
   name: "DefaultLayout",
   components: {
-    Navigation,
-    Footer
+    Footer,
+    Navigation
   }
 };
 </script>
@@ -34,5 +34,14 @@ html {
 
 .app {
   background: $background-color;
+}
+
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.3s;
+}
+.page-enter,
+.page-leave-active {
+  opacity: 0;
 }
 </style>

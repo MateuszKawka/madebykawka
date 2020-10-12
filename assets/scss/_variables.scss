@@ -7,10 +7,13 @@ $monarch: #960641;
 $shiraz: #c3083f;
 
 $background-color: rgb(243, 243, 243);
-$details-color: #9faa8f;
-$text-color: #1c1c1c;
+$details-color: #1C3144;
+$details-secondary-color: #DDDBCB;
+$background-color-dark: #3B5249;
+$text-color: #1C3144;
 $text-color-darken: $abbey;
 $text-grey: #242424;
+$text-light: #EEE;
 
 // SPACES
 
@@ -25,11 +28,12 @@ $s8: 14rem;
 
 // FONTS
 
-$font-size-small: 1.3rem;
-$font-size-medium: 1.6rem;
-$font-size-large: 1.8rem;
+$font-size-small: 1.5rem;
+$font-size-medium: 1.7rem;
+$font-size-large: 1.9rem;
 $font-size-big: 3rem;
 $font-size-logo: 5rem;
+$font-size-extra: 6rem;
 
 $font-weight-light: 300;
 $font-weight-medium: 600;
@@ -38,6 +42,10 @@ $font-weight-bold: 700;
 $default-font-family: 'Playfair Display', serif;
 
 // BREAKPOINTS
+
+$mobile: 480px;
+$tablets: 860px;
+$laptops: 1024px;
 
 // OTHERS
 

@@ -1,14 +1,22 @@
 <template>
   <section class="section" id="benefits">
-    <h2 class="section__title">
-      Dlaczego ja ?
+    <h2
+      class="section__title section__title--light section__title--hide-pseudo-el"
+      v-view="titleHandler"
+    >
+      {{ $t(`sectionTitles.whyme`) }}
     </h2>
     <div class="whyme">
-      <div class="whyme-item" v-for="item in whyme" :key="item.title">
-        <img :src="item.image" class="icon" />
-        <p class="whyme-item__title">{{ item.title }}</p>
+      <div
+        class="whyme-item"
+        v-for="item in whyme"
+        :key="item.id"
+        v-view="whymeHandler"
+      >
+        <img :src="item.image" class="icon" v-lazy-load  :alt="`${item.id} icon`"/>
+        <p class="whyme-item__title"> {{ $t(`whyme.${item.id}.title`) }}</p>
         <p class="whyme-item__desc">
-          {{ item.desc }}
+         {{ $t(`whyme.${item.id}.desc`) }}
         </p>
       </div>
     </div>
@@ -23,41 +31,46 @@ export default {
       whyme: [
         {
           image: "/seo.svg",
-          title: "SEO",
-          desc: `Wszystkie moje projekty są "SEO-Friendly" czyli gotowe do pozycjonowania w wyszukiwarkach. `
+          id: "seo"
         },
         {
-          image: "/safe-box.svg",
-          title: "Bezpieczeństwo",
-          desc:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis laborum ullam, tempora assumenda ea libero eum blanditiis at odio omnis accusamus dignissimos qui quasi nesciunt sequi."
+          image: "/padlock.svg",
+          id: "security"
         },
         {
           image: "/money-bag.svg",
-          title: "Finanse",
-          desc:
-            "Skorzystaj z formularza na dole lub napisz bezpośrednio na kontakt@madebykawka.pl, ustalimy cenę akceptowalną dla obu stron. "
+          id: "finances"
         },
         {
           image: "/calendar.svg",
-          title: "Terminowość",
-          desc:
-            "Korzystając z moich usług możesz mieć pewność, że strona, której potrzebujesz, zawsze będzie gotowa na czas. "
+          id: "timeliness"
         },
         {
           image: "/coding.svg",
-          title: "Responsywność",
-          desc:
-            "Korzystam z najnowszych technologii i trendów, dzięki czemu twoja strona zawsze będzie wyglądać idealnie na wszystkich urządzeniach."
+          id: "rwd"
         },
         {
           image: "/analytics.svg",
-          title: "Analiza",
-          desc:
-            "Na życzenie do swoich projektów instaluje wszelkie potrzebne narzędzia do analizowania ruchu na stronie. "
+          id: "analitycs"
         }
       ]
     };
+  },
+  methods: {
+    whymeHandler(el) {
+      if (el.percentTop < 0.7) {
+        el.target.element.classList.add("whyme-item--hover");
+      } else {
+        el.target.element.classList.remove("whyme-item--hover");
+      }
+    },
+    titleHandler(el) {
+      if (el.percentTop < 0.7) {
+        el.target.element.classList.remove("section__title--hide-pseudo-el");
+      } else {
+        el.target.element.classList.add("section__title--hide-pseudo-el");
+      }
+    }
   }
 };
 </script>
@@ -69,8 +82,8 @@ export default {
 
 .whyme {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
   justify-items: center;
 }
 
@@ -80,30 +93,56 @@ export default {
   justify-content: flex-start;
   align-items: center;
   flex-flow: column wrap;
-  margin-top: $s6;
+  margin: $s4 0 $s2 0;
   padding: 1rem;
   transition: 0.25s all ease-in-out;
+  transform: scale(0.9);
+  padding: 3rem;
+}
+
+.whyme-item--hover {
+  transform: scale(1);
 }
 
 .whyme-item:hover {
-  transform: scale(1.1);
+  transform: scale(1);
 }
 .icon {
   fill: red;
-  width: 48px;
+  width: $s5;
 }
 
 .whyme-item__title {
-  color: $text-color;
-  font-size: $font-size-medium;
+  color: $text-light;
+  font-size: $font-size-large;
   margin-top: $s2;
   font-weight: $font-weight-medium;
 }
 
+
+
 .whyme-item__desc {
-  color: $text-grey;
+  color: $text-light;
   font-size: $font-size-small;
   margin-top: $s2;
   text-align: center;
+}
+
+@media all and (max-width: $mobile) {
+  .whyme {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+  }
+
+  .whyme-item {
+    width: 90%;
+  }
+  .section {
+    margin-top: $s3;
+  }
+
+  .whyme-item__desc {
+    font-size: $font-size-medium;
+  }
 }
 </style>

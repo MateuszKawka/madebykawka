@@ -3,3 +3,9 @@
 @import "./components/buttons";
 @import "./components/containers";
 @import "./components/sections";
+@import "./components/references-swiper";
+
+.vm--modal {
+  width: 100% !important;
+  left: 0 !important;
+}
